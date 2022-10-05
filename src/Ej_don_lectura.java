@@ -12,35 +12,41 @@ import java.io.IOException;
 
 public class Ej_don_lectura {
     public static void main(String[] args) {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
         try {
+            //Obtenemos el documento a analizar y le decimos como lo queremos sacar los datos
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(new File("Becario.xml"));
             document.getDocumentElement().normalize();
 
+            //Mostramos el elemento raiz del xml
             System.out.printf("Elemento raiz: %s %n", document.getDocumentElement().getNodeName());
 
-            NodeList becarios = document.getElementsByTagName("becario");
-            System.out.printf("Nodos becarios a recorrer: %d %n", becarios.getLength());
+            //Obtenemos el nodo becario y mostramos cuantos objetos becarios tenemos
+            NodeList listaBecarios = document.getElementsByTagName("becario");
+            System.out.printf("Nodos Becarios a recorrer: %d %n", listaBecarios.getLength());
 
-            for (int i = 0; i < becarios.getLength(); i++) {
-                Node becario = becarios.item(i);
+            //Recorremos los diferentes becarios que tiene el xml
+            for (int i = 0; i < listaBecarios.getLength(); i++) {
+                //Obtenemos el nodo becario de la posicion indicada
+                Node nodoBecario = listaBecarios.item(i);
 
-                if (becario.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) becario;
+                //Si es un elemento entonces lo obtenemos
+                if (nodoBecario.getNodeType() == Node.ELEMENT_NODE) {
+                    //Obtenemos el elemento y extramos los datos
+                    Element elementoBecario = (Element) nodoBecario;
                     System.out.printf("Nombre completo del becario: %s %n",
-                            element.getElementsByTagName("nombreCompleto").item(0).getTextContent());
+                            elementoBecario.getElementsByTagName("nombreCompleto").item(0).getTextContent());
                     System.out.printf("Sexo del becario: %s %n",
-                            element.getElementsByTagName("sexo").item(0).getTextContent());
+                            elementoBecario.getElementsByTagName("sexo").item(0).getTextContent());
                     System.out.printf("Edad del becario: %s %n",
-                            element.getElementsByTagName("edad").item(0).getTextContent());
+                            elementoBecario.getElementsByTagName("edad").item(0).getTextContent());
                     System.out.printf("Numero de suspensos del curso anterior del becario: %s %n",
-                            element.getElementsByTagName("numSuspensos").item(0).getTextContent());
+                            elementoBecario.getElementsByTagName("numSuspensos").item(0).getTextContent());
                     System.out.printf("Residencia familiar del becario: %s %n",
-                            element.getElementsByTagName("residenciaFamiliar").item(0).getTextContent());
+                            elementoBecario.getElementsByTagName("residenciaFamiliar").item(0).getTextContent());
                     System.out.printf("Ingresos anuales de la familia del becario: %s %n %n",
-                            element.getElementsByTagName("ingresosAnuales").item(0).getTextContent());
+                            elementoBecario.getElementsByTagName("ingresosAnuales").item(0).getTextContent());
                 }
             }
         } catch (ParserConfigurationException e) {
